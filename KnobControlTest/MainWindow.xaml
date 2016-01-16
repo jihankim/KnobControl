@@ -1,12 +1,15 @@
-﻿<Window x:Class="KnobControlTest.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KnobControlTest"
+        xmlns:KnobControl="clr-namespace:KnobControl;assembly=KnobControl" x:Class="KnobControlTest.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+
+        <KnobControl:KnobControl HorizontalAlignment="Left" Margin="160,66,0,0" VerticalAlignment="Top" Height="131"/>
+
     </Grid>
 </Window>
