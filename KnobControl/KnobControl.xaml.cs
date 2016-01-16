@@ -73,7 +73,12 @@ namespace KnobControl
         private bool UpdateValueLabel()
         {
 
-            this.ValueLabel.Content = Title + ": " + Value.ToString() + " [" + Unit + "]";
+            ValueLabel.Content = Title + ": " + Value.ToString();
+            if( Unit.Length > 0)
+            {
+                ValueLabel.Content  += " [" + Unit + "]";
+            }
+
 
             return true;
         }

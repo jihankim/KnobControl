@@ -7,7 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <Label x:Name="ValueLabel" Content="Title: Value [unit]" HorizontalAlignment="Center" Margin="99,0,99,10" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-
+        <Viewbox Stretch="Uniform">
+            <Grid x:Name="knobGrid">
+                <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="200" Stroke="Black" VerticalAlignment="Center" Width="200" Grid.RowSpan="2"/>
+                <Label x:Name="ValueLabel" Content="Title: Value [unit]"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" Grid.RowSpan="2"/>
+            </Grid>
+        </Viewbox>
     </Grid>
 </UserControl>
