@@ -38,6 +38,16 @@ namespace KnobControl
 
         #region Arc Control
 
+        public Color ColorForMinimum
+        {
+            get; set;
+        }
+
+        public Color ColorForMaximum
+        {
+            get; set;
+        }
+
         private const double ARC_START_ANGLE = -180;
         private const double ARC_END_ANGLE = 180;
 
@@ -54,14 +64,27 @@ namespace KnobControl
             levelArc.StartAngle = ARC_START_ANGLE;
             levelArc.EndAngle = ARC_END_ANGLE;
             levelArc.Stroke = Brushes.Red;
-            levelArc.Width = 190;
-            levelArc.Height = 190;
+            levelArc.Width = 200;
+            levelArc.Height = 200;
             levelArc.IsHitTestVisible = false;
-            levelArc.StrokeThickness = 10;
+            levelArc.StrokeThickness = 12;
 
             knobGrid.Children.Add(levelArc);
 
+
+            ColorForMaximum = Colors.Red;   // default color
+            ColorForMinimum = Colors.Green; // default color
+
             return true;
+        }
+
+        private Color ColorBlend(Color color1, Color color2, double alpha)
+        {
+            byte r = (byte)((color1.R * (1-alpha)) + color2.R * alpha);
+            byte g = (byte)((color1.G * (1-alpha)) + color2.G * alpha);
+            byte b = (byte)((color1.B * (1-alpha)) + color2.B * alpha);
+
+            return Color.FromRgb(r, g, b);
         }
 
         private bool UpdateArc()
@@ -69,6 +92,11 @@ namespace KnobControl
             double newAngle = (ARC_END_ANGLE - ARC_START_ANGLE) / (Maximum - Minimum) * (Value - Minimum) + ARC_START_ANGLE;
 
             levelArc.EndAngle = newAngle;
+
+
+            double newColorAlpha = 1.0 / (Maximum - Minimum) * (Value - Minimum);
+            Color newColor = ColorBlend(ColorForMinimum, ColorForMaximum, newColorAlpha);
+            levelArc.Stroke = new SolidColorBrush(newColor);
 
             return true;
         }
