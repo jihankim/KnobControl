@@ -21,9 +21,25 @@ namespace KnobControl
     /// </summary>
     public partial class KnobControl : UserControl
     {
+        public KnobControl()
+        {
+            InitializeComponent();
+
+            InitializeLevelArc();
+        }
+
+        private bool UpdateLabelAndArc()
+        {
+            UpdateValueLabel();
+            UpdateArc();
+
+            return true;
+        }
+
+        #region Arc Control
+
         private const double ARC_START_ANGLE = -180;
         private const double ARC_END_ANGLE = 180;
-
 
         private Arc levelArc
         {
@@ -57,24 +73,9 @@ namespace KnobControl
             return true;
         }
 
+        #endregion
 
-        private bool UpdateLabelAndArc()
-        {
-            UpdateValueLabel();
-            UpdateArc();
-
-            return true;
-        }
-
-
-        public KnobControl()
-        {
-            InitializeComponent();
-
-            InitializeLevelArc();
-        }
-
-
+        #region Public Knob Control Properties
         public string _Title;
         public string Title
         {
@@ -119,28 +120,6 @@ namespace KnobControl
             }
         }
 
-        private bool UpdateValueLabel()
-        {
-            if ( Title != null && Title.Length > 0 )
-            {
-                ValueLabel.Content = Title + ": ";
-            }
-            else
-            {
-                ValueLabel.Content = string.Empty;
-            }
-
-            ValueLabel.Content  += Value.ToString();
-
-            if( Unit != null && Unit.Length > 0)
-            {
-                ValueLabel.Content  += " [" + Unit + "]";
-            }
-
-
-            return true;
-        }
-
         private double _Minimum;
         public double Minimum
         {
@@ -181,13 +160,80 @@ namespace KnobControl
                 _Step = value;
             }
         }
+        #endregion
 
+
+        #region Label Control
+        private bool UpdateValueLabel()
+        {
+            if (Title != null && Title.Length > 0)
+            {
+                ValueLabel.Content = Title + ": ";
+            }
+            else
+            {
+                ValueLabel.Content = string.Empty;
+            }
+
+            ValueLabel.Content += Value.ToString();
+
+            if (Unit != null && Unit.Length > 0)
+            {
+                ValueLabel.Content += " [" + Unit + "]";
+            }
+
+
+            return true;
+        }
+
+        #endregion
+
+
+        #region Mouse Event Controllers
+
+        private bool isMouseDown = false;
+        private Point previousMousePosition;
+        private double mouseMoveThreshold = 1.0;
         private void Ellipse_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            double d = e.Delta / 120;
+            double d = e.Delta / 120; // Mouse wheel 1 click (120 delta) = 1 step
 
             Value += d * Step;
         }
+
+        private void Ellipse_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            isMouseDown = true;
+            (sender as Ellipse).CaptureMouse();
+            previousMousePosition = e.GetPosition((Ellipse)sender);
+        }
+
+        private void Ellipse_MouseMove(object sender, MouseEventArgs e)
+        {
+            if( isMouseDown )
+            {
+                Point newMousePosition = e.GetPosition((Ellipse)sender);
+
+                double dY = (previousMousePosition.Y - newMousePosition.Y);
+
+                if( Math.Abs(dY) > mouseMoveThreshold)
+                {
+                    Value += Math.Sign(dY) * Step;
+                }
+
+                previousMousePosition = newMousePosition;
+                
+            }
+        }
+
+        private void Ellipse_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            isMouseDown = false;
+            (sender as Ellipse).ReleaseMouseCapture();
+        }
+        #endregion
+
+
     }
 
 
