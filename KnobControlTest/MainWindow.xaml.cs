@@ -24,5 +24,13 @@ namespace KnobControlTest
         {
             InitializeComponent();
         }
+
+        
+
+        private void KnobControl_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            this.myLabel.Content = e.NewValue.ToString();
+        }
     }
+
 }

@@ -20,14 +20,36 @@ namespace KnobControl
     /// <summary>
     /// Interaction logic for KnobControl.xaml
     /// </summary>
+    [DefaultEvent("ValueChanged"), DefaultProperty("Value")]
     public partial class KnobControl : UserControl
     {
+        private RoutedPropertyChangedEventHandler<double> onValueChanged;
+        public event RoutedPropertyChangedEventHandler<double> ValueChanged
+        {
+            add
+            {
+                onValueChanged += value;
+            }
+            remove
+            {
+                onValueChanged -= value;
+            }
+        }
+
         public KnobControl()
         {
             InitializeComponent();
 
             InitializeLevelArc();
             InitializeLabel();
+
+
+            Title = "Time";
+            Minimum = 0;
+            Maximum = 10;
+            Value = 7;
+            Step = 1;
+            Unit = "h";
         }
 
         private bool UpdateLabelAndArc()
@@ -112,12 +134,12 @@ namespace KnobControl
             levelIndicatingArc.Width = 200;
             levelIndicatingArc.Height = 200;
             levelIndicatingArc.IsHitTestVisible = false;
-            levelIndicatingArc.StrokeThickness = 12;
+            levelIndicatingArc.StrokeThickness = 20;
 
             knobGrid.Children.Add(levelIndicatingArc);
             
             ColorForMaximum = Colors.Red;   // default color
-            ColorForMinimum = Colors.Green; // default color
+            ColorForMinimum = Colors.Blue; // default color
 
             return true;
         }
@@ -194,6 +216,14 @@ namespace KnobControl
                 _Value = value;
                 _Value = Math.Max(Math.Min(_Value, Maximum), Minimum);
                 UpdateLabelAndArc();
+
+                if( onValueChanged!=null && oldValue != _Value)
+                {
+                    RoutedPropertyChangedEventArgs<double> e = new RoutedPropertyChangedEventArgs<double>(oldValue, _Value);
+
+                    onValueChanged(this, e);
+                }
+
             }
         }
 
@@ -208,7 +238,7 @@ namespace KnobControl
             set
             {
                 _Minimum = value;
-                _Minimum = Math.Min(_Minimum, Maximum);
+                //_Minimum = Math.Min(_Minimum, Maximum);
             }
         }
 
@@ -223,7 +253,7 @@ namespace KnobControl
             set
             {
                 _Maximum = value;
-                _Maximum = Math.Max(_Maximum, _Minimum);
+                //_Maximum = Math.Max(_Maximum, Minimum);
             }
         }
 
@@ -258,41 +288,29 @@ namespace KnobControl
             // for Title Label
             if (Title != null && Title.Length > 0)
             {
-                TitleLabel.Content = Title;
+                displayTextBlock.Text = Title;
             }
             else
             {
-                TitleLabel.Content = string.Empty;
+                displayTextBlock.Text = string.Empty;
             }
 
             if (LabelFont != null)
             {
-                TitleLabel.FontFamily = LabelFont;
+                displayTextBlock.FontFamily = LabelFont;
             }
-
-            TitleLabel.FontSize = LabelFontSize;
-
+            displayTextBlock.FontSize = LabelFontSize;
 
 
             // for Value Label
-            ValueLabel.Content = Value.ToString();
+            displayTextBlock.Text += "\n" + Value.ToString();
 
             if (Unit != null && Unit.Length > 0)
             {
-                ValueLabel.Content += " [" + Unit + "]";
-            }
-
-            if( LabelFont !=null)
-            {
-                ValueLabel.FontFamily = LabelFont;
+                displayTextBlock.Text += "[" + Unit + "]";
             }
             
-            ValueLabel.FontSize = LabelFontSize;
 
-
-
-
-            displayTextBlock.Text = Title + "\n" + Value.ToString();
 
             return true;
         }
@@ -309,7 +327,7 @@ namespace KnobControl
             {
                 _LabelFont = value;
 
-                if(ValueLabel != null)
+                if(displayTextBlock != null)
                 {
                     UpdateValueLabel();
                 }
@@ -328,7 +346,7 @@ namespace KnobControl
             {
                 _LabelFontSize = value;
 
-                if(ValueLabel !=null)
+                if(displayTextBlock != null)
                 {
                     UpdateValueLabel();
                 }

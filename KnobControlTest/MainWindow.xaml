@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <KnobControl:KnobControl Margin="164,108,228,95" Minimum="100" Maximum="100" Value="50" Step="10" Title="Volume" arcStartAngle="-180" arcEndAngle="180" Unit="dB" LabelFont="Impact"/>
+        <KnobControl:KnobControl HorizontalAlignment="Left" Margin="121,95,0,0" VerticalAlignment="Top" Height="130" Width="138" ValueChanged="KnobControl_ValueChanged"/>
+        <Label x:Name="myLabel" Content="Label" HorizontalAlignment="Left" Margin="372,120,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
