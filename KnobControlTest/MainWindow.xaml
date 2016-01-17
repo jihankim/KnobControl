@@ -8,6 +8,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <KnobControl:KnobControl Margin="164,108,228,95" Minimum="100" Maximum="100" Value="50" Step="10" Title="Volume"/>
+        <KnobControl:KnobControl Margin="164,108,228,95" Minimum="100" Maximum="100" Value="50" Step="10" Title="Volume" arcStartAngle="-180" arcEndAngle="180" Unit="dB" LabelFont="Impact"/>
     </Grid>
 </Window>

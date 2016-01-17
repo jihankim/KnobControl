@@ -10,7 +10,9 @@
         <Viewbox Stretch="Uniform">
             <Grid x:Name="knobGrid">
                 <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Center" Height="200" Stroke="Black" VerticalAlignment="Center" Width="200" Grid.RowSpan="2" MouseWheel="Ellipse_MouseWheel" MouseDown="Ellipse_MouseDown" MouseMove="Ellipse_MouseMove" MouseUp="Ellipse_MouseUp"/>
-                <Label x:Name="ValueLabel" Content="Title: Value [unit]"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" Grid.RowSpan="2" IsHitTestVisible="False"/>
+                <TextBlock x:Name="displayTextBlock" Text="Title'&lt;linebreak/&gt;'Value" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"/>
+                <Label x:Name="TitleLabel" Content="Title" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize ="24" Margin="0,73,0,100" FontFamily="Georgia"/>
+                <Label x:Name="ValueLabel" Content="Value [unit]"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" IsHitTestVisible="False" FontFamily="Georgia" Margin="0,100,0,69"/>
             </Grid>
         </Viewbox>
     </Grid>

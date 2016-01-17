@@ -1,6 +1,7 @@
 ﻿using Microsoft.Expression.Shapes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ using System.Windows.Shapes;
 namespace KnobControl
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for KnobControl.xaml
     /// </summary>
     public partial class KnobControl : UserControl
     {
@@ -26,6 +27,7 @@ namespace KnobControl
             InitializeComponent();
 
             InitializeLevelArc();
+            InitializeLabel();
         }
 
         private bool UpdateLabelAndArc()
@@ -38,20 +40,60 @@ namespace KnobControl
 
         #region Arc Control
 
+        [Description("Gets or sets a color for the knob control's minimum value."), Category("Knob Control")]
         public Color ColorForMinimum
         {
-            get; set;
+            get;
+            set;
         }
 
+        [Description("Gets or sets a color for the knob control's maximum value."), Category("Knob Control")]
         public Color ColorForMaximum
         {
-            get; set;
+            get;
+            set;
         }
 
-        private const double ARC_START_ANGLE = -180;
-        private const double ARC_END_ANGLE = 180;
+        private double _arcStartAngle;
+        [Description("Gets or sets start angle for the level indicating arc. Unit is in degree."), Category("Knob Control")]
+        public double arcStartAngle
+        {
+            get
+            {
+                return _arcStartAngle;
+            }
+            set
+            {
+                _arcStartAngle = value;
 
-        private Arc levelArc
+                if (levelIndicatingArc != null)
+                {
+                    UpdateArc();
+                }
+                
+            }
+        }
+
+        private double _arcEndAngle;
+        [Description("Gets or sets end angle for the level indicating arc. Unit is in degree."), Category("Knob Control")]
+        public double arcEndAngle
+        {
+            get
+            {
+                return _arcEndAngle;
+            }
+            set
+            {
+                _arcEndAngle = value;
+
+                if(levelIndicatingArc !=null)
+                {
+                    UpdateArc();
+                }
+            }
+        }
+
+        private Arc levelIndicatingArc
         {
             get;
             set;
@@ -59,19 +101,21 @@ namespace KnobControl
 
         private bool InitializeLevelArc()
         {
-            levelArc = new Arc();
-            levelArc.Stretch = Stretch.None;
-            levelArc.StartAngle = ARC_START_ANGLE;
-            levelArc.EndAngle = ARC_END_ANGLE;
-            levelArc.Stroke = Brushes.Red;
-            levelArc.Width = 200;
-            levelArc.Height = 200;
-            levelArc.IsHitTestVisible = false;
-            levelArc.StrokeThickness = 12;
+            arcStartAngle = -180;   // default start angle
+            arcEndAngle = 180;      // default end angle
 
-            knobGrid.Children.Add(levelArc);
+            levelIndicatingArc = new Arc();
+            levelIndicatingArc.Stretch = Stretch.None;
+            levelIndicatingArc.StartAngle = arcStartAngle;
+            levelIndicatingArc.EndAngle = arcEndAngle;
+            levelIndicatingArc.Stroke = Brushes.Red;
+            levelIndicatingArc.Width = 200;
+            levelIndicatingArc.Height = 200;
+            levelIndicatingArc.IsHitTestVisible = false;
+            levelIndicatingArc.StrokeThickness = 12;
 
-
+            knobGrid.Children.Add(levelIndicatingArc);
+            
             ColorForMaximum = Colors.Red;   // default color
             ColorForMinimum = Colors.Green; // default color
 
@@ -89,14 +133,16 @@ namespace KnobControl
 
         private bool UpdateArc()
         {
-            double newAngle = (ARC_END_ANGLE - ARC_START_ANGLE) / (Maximum - Minimum) * (Value - Minimum) + ARC_START_ANGLE;
+            levelIndicatingArc.StartAngle = arcStartAngle;
 
-            levelArc.EndAngle = newAngle;
+            double newAngle = (arcEndAngle - arcStartAngle) / (Maximum - Minimum) * (Value - Minimum) + arcStartAngle;
+
+            levelIndicatingArc.EndAngle = newAngle;
 
 
             double newColorAlpha = 1.0 / (Maximum - Minimum) * (Value - Minimum);
             Color newColor = ColorBlend(ColorForMinimum, ColorForMaximum, newColorAlpha);
-            levelArc.Stroke = new SolidColorBrush(newColor);
+            levelIndicatingArc.Stroke = new SolidColorBrush(newColor);
 
             return true;
         }
@@ -105,6 +151,7 @@ namespace KnobControl
 
         #region Public Knob Control Properties
         public string _Title;
+        [Description("Gets or sets title for the knob control."), Category("Knob Control")]
         public string Title
         {
             get
@@ -119,6 +166,7 @@ namespace KnobControl
         }
 
         private string _Unit;
+        [Description("Gets or sets unit text for the knob control."), Category("Knob Control")]
         public string Unit
         {
             get
@@ -133,6 +181,7 @@ namespace KnobControl
         }
 
         private double _Value;
+        [Description("Gets or sets value for the knob control."), Category("Knob Control")]
         public double Value
         {
             get
@@ -149,6 +198,7 @@ namespace KnobControl
         }
 
         private double _Minimum;
+        [Description("Gets or sets the minimum value for the knob control. It can not be more than the maximum."), Category("Knob Control")]
         public double Minimum
         {
             get
@@ -163,6 +213,7 @@ namespace KnobControl
         }
 
         private double _Maximum;
+        [Description("Gets or sets the maximum value for the knob control. It can not be less than the maximum."), Category("Knob Control")]
         public double Maximum
         {
             get
@@ -177,6 +228,7 @@ namespace KnobControl
         }
 
         private double _Step;
+        [Description("Gets or sets a step for the knob control."), Category("Knob Control")]
         public double Step
         {
             get
@@ -192,26 +244,95 @@ namespace KnobControl
 
 
         #region Label Control
+        private bool InitializeLabel()
+        {
+
+            LabelFontSize = 22;
+            LabelFont = new FontFamily("Consolas");
+            
+            return true;
+        }
+
         private bool UpdateValueLabel()
         {
+            // for Title Label
             if (Title != null && Title.Length > 0)
             {
-                ValueLabel.Content = Title + ": ";
+                TitleLabel.Content = Title;
             }
             else
             {
-                ValueLabel.Content = string.Empty;
+                TitleLabel.Content = string.Empty;
             }
 
-            ValueLabel.Content += Value.ToString();
+            if (LabelFont != null)
+            {
+                TitleLabel.FontFamily = LabelFont;
+            }
+
+            TitleLabel.FontSize = LabelFontSize;
+
+
+
+            // for Value Label
+            ValueLabel.Content = Value.ToString();
 
             if (Unit != null && Unit.Length > 0)
             {
                 ValueLabel.Content += " [" + Unit + "]";
             }
 
+            if( LabelFont !=null)
+            {
+                ValueLabel.FontFamily = LabelFont;
+            }
+            
+            ValueLabel.FontSize = LabelFontSize;
+
+
+
+
+            displayTextBlock.Text = Title + "\n" + Value.ToString();
 
             return true;
+        }
+
+        private FontFamily _LabelFont;
+        [Description("Gets or sets a font for the knob control."), Category("Knob Control")]
+        public FontFamily LabelFont
+        {
+            get
+            {
+                return _LabelFont;
+            }
+            set
+            {
+                _LabelFont = value;
+
+                if(ValueLabel != null)
+                {
+                    UpdateValueLabel();
+                }
+            }
+        }
+
+        private double _LabelFontSize;
+        [Description("Gets or sets a font size for the knob control."), Category("Knob Control")]
+        public double LabelFontSize
+        {
+            get
+            {
+                return _LabelFontSize;
+            }
+            set
+            {
+                _LabelFontSize = value;
+
+                if(ValueLabel !=null)
+                {
+                    UpdateValueLabel();
+                }
+            }
         }
 
         #endregion
