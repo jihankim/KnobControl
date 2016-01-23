@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KnobControl.Properties {
+namespace KnobControlNamespace.Properties {
     
     
     /// <summary>

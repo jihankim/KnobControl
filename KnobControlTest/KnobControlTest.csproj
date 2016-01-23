@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{892B6561-B032-4B5F-B21F-AF85B545D855}</ProjectGuid>
+    <ProjectGuid>{911D5810-CB31-4223-A035-0BA9A4030EB2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>KnobControlTest</RootNamespace>
