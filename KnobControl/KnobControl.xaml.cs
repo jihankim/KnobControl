@@ -1,4 +1,8 @@
-﻿using Microsoft.Expression.Shapes;
+﻿/// Simple WPF/C# Knob Control 
+/// Author: n37jan (n37jan@gmail.com)
+/// License: BSD License
+
+using Microsoft.Expression.Shapes;
 using System;
 using System.ComponentModel;
 using System.Windows;
