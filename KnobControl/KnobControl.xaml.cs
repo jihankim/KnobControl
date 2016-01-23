@@ -63,7 +63,7 @@ namespace KnobControlNamespace
             levelIndicatingArc.EndAngle = arcEndAngle;
             levelIndicatingArc.Stroke = Brushes.Red;
             levelIndicatingArc.IsHitTestVisible = false;
-            levelIndicatingArc.StrokeThickness = 20;
+            levelIndicatingArc.StrokeThickness = 30;
 
             knobGrid.Children.Add(levelIndicatingArc);
         }

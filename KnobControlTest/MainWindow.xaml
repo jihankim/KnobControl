@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:KnobControlTest"
         xmlns:KnobControlNamespace="clr-namespace:KnobControlNamespace;assembly=KnobControl" x:Class="KnobControlTest.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="227.362" Width="525">
+        Title="MainWindow" Height="177.755" Width="433.366">
     <Grid>
-        <KnobControlNamespace:KnobControl HorizontalAlignment="Left" Margin="11,17,0,0" VerticalAlignment="Top" Height="137" Width="162" ValueChanged="KnobControl_ValueChanged" arcEndAngle="180" arcStartAngle="-180" Title="knob1" Unit="%" Value="33" Maximum="100"/>
-        <KnobControlNamespace:KnobControl HorizontalAlignment="Left" Margin="173,17,0,0" VerticalAlignment="Top" Height="137" Width="162" ValueChanged="KnobControl_ValueChanged" arcEndAngle="180" arcStartAngle="-180" Title="knob2" Unit="%" Value="66" Maximum="100"/>
-        <KnobControlNamespace:KnobControl HorizontalAlignment="Left" Margin="335,17,0,0" VerticalAlignment="Top" Height="137" Width="162" ValueChanged="KnobControl_ValueChanged" arcEndAngle="180" arcStartAngle="-180" Title="knob3" Unit="%" Value="99" Maximum="100"/>
+        <KnobControlNamespace:KnobControl HorizontalAlignment="Left" Margin="7,15,0,0" VerticalAlignment="Top" Height="115" Width="137" ValueChanged="KnobControl_ValueChanged" arcEndAngle="180" arcStartAngle="-180" Title="knob1" Unit="%" Value="33" Maximum="100" LabelFontSize="30"/>
+        <KnobControlNamespace:KnobControl HorizontalAlignment="Left" Margin="144,15,0,0" VerticalAlignment="Top" Height="115" Width="137" ValueChanged="KnobControl_ValueChanged" arcEndAngle="180" arcStartAngle="-180" Title="knob2" Unit="%" Value="66" Maximum="100" LabelFontSize="30"/>
+        <KnobControlNamespace:KnobControl HorizontalAlignment="Left" Margin="281,15,0,0" VerticalAlignment="Top" Height="115" Width="137" ValueChanged="KnobControl_ValueChanged" arcEndAngle="180" arcStartAngle="-180" Title="knob3" Unit="%" Value="99" Maximum="100" LabelFontSize="30"/>
     </Grid>
 </Window>
