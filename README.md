@@ -18,4 +18,4 @@ It was written with elementary functions and WPF components such as ellipse, tex
 ![](https://cloud.githubusercontent.com/assets/3529809/12530902/b93f61b2-c230-11e5-9a69-6f8abcabad0f.png)
 
 ### Licenses
-This is an opensource software and distributed under BSD license.
+This is an opensource software and distributed under MIT license.
